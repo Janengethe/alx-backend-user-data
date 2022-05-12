@@ -74,3 +74,33 @@ class RedactingFormatter(logging.Formatter):
         return filter_datum(self.fields, self.REDACTION,
                             super(RedactingFormatter, self).format(record),
                             self.SEPARATOR)
+
+
+def main() -> None:
+    """
+    Obtains a database connection using get_db and retrieve all rows
+    in the users table and display each row
+    """
+    db = get_db()
+    cur = db.cursor()
+
+    query = ('SELECT * FROM users;')
+    cur.execute(query)
+    fetch_data = cur.fetchall()
+
+    logger = get_logger()
+
+    for row in fetch_data:
+        fields = 'name={}; email={}; phone={}; ssn={}; password={}; ip={}; '\
+            'last_login={}; user_agent={};'
+        fields = fields.format(row[0], row[1], row[2], row[3],
+                               row[4], row[5], row[6], row[7])
+        logger.info(fields)
+
+    cur.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    """Run"""
+    main()

@@ -53,3 +53,10 @@ print(hash_password(password))
 print(hash_password(password))
 
 print("End of Task 5")
+
+is_valid = __import__('encrypt_password').is_valid
+encrypted_password = hash_password(password)
+print(encrypted_password)
+print(is_valid(encrypted_password, password))
+
+print("End of Task 6")

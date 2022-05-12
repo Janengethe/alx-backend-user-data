@@ -24,3 +24,11 @@ formatter = RedactingFormatter(fields=("email", "ssn", "password"))
 print(formatter.format(log_record))
 
 print("End of Task 1")
+
+get_logger = __import__('filtered_logger').get_logger
+PII_FIELDS = __import__('filtered_logger').PII_FIELDS
+
+print(get_logger.__annotations__.get('return'))
+print("PII_FIELDS: {}".format(len(PII_FIELDS)))
+
+print("End of Task 2")

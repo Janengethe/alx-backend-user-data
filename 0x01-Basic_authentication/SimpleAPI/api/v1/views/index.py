@@ -30,3 +30,9 @@ def stats() -> str:
 def unautorized() -> str:
     """endpoint to test error 401"""
     return abort(401)
+
+
+@app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
+def forbidden() -> str:
+    """endpoint to test error 403"""
+    return abort(403)

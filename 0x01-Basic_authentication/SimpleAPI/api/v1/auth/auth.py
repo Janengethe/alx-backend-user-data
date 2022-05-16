@@ -11,8 +11,22 @@ class Auth():
     """
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """To work on it later"""
-        return False
+        """
+        returns True if the path is not in the list of strings excluded_paths
+        """
+        if path is None:
+            return True
+        elif excluded_paths is None or excluded_paths == []:
+            return True
+        elif path in excluded_paths:
+            return False
+        else:
+            for i in excluded_paths:
+                if i.startswith(path) or path.startswith(i):
+                    return False
+                if i[-1] == "*" and path.startswith(i[:-1]):
+                    return False
+        return True
 
     def authorization_header(self, request=None) -> str:
         """returns none"""

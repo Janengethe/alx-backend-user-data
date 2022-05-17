@@ -2,7 +2,6 @@
 """
 Module auth
 """
-from email import headerregistry
 from typing import List, TypeVar
 from flask import request
 
@@ -15,27 +14,28 @@ class Auth():
         """
         returns True if the path is not in the list of strings excluded_paths
         """
-        if path is None:
-            return True
-        elif excluded_paths is None or excluded_paths == []:
-            return True
-        elif path in excluded_paths:
-            return False
-        else:
-            for i in excluded_paths:
-                if i.startswith(path) or path.startswith(i):
-                    return False
-                if i[-1] == "*" and path.startswith(i[:-1]):
-                    return False
-        return True
+        # if path is None:
+        #     return True
+        # elif excluded_paths is None or excluded_paths == []:
+        #     return True
+        # elif path in excluded_paths:
+        #     return False
+        # else:
+        #     for i in excluded_paths:
+        #         if i.startswith(path) or path.startswith(i):
+        #             return False
+        #         if i[-1] == "*" and path.startswith(i[:-1]):
+        #             return False
+        # return True
+        return False
 
     def authorization_header(self, request=None) -> str:
         """returns authorization"""
-        header = request.headers.get("Authorization")
-        if request is None or header is None:
-            return None
-        return header
-
+        # header = request.headers.get("Authorization")
+        # if request is None or header is None:
+        #     return None
+        # return header
+        return None
 
     def current_user(self, request=None) -> TypeVar('User'):
         """returns none"""

@@ -2,6 +2,7 @@
 """
 Module auth
 """
+from email import headerregistry
 from typing import List, TypeVar
 from flask import request
 
@@ -29,8 +30,12 @@ class Auth():
         return True
 
     def authorization_header(self, request=None) -> str:
-        """returns none"""
-        return None
+        """returns authorization"""
+        header = request.headers.get("Authorization")
+        if request is None or header is None:
+            return None
+        return header
+
 
     def current_user(self, request=None) -> TypeVar('User'):
         """returns none"""

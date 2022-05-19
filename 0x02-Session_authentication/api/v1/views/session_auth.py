@@ -4,7 +4,7 @@ Module session_auth
 handles all routes for the Session authentication
 """
 from os import getenv
-from flask import jsonify, request
+from flask import abort, jsonify, request
 from api.v1.views import app_views
 from models.user import User
 
@@ -40,3 +40,16 @@ def session_login():
     response = jsonify(user.to_json())
     response.set_cookie(SESSION_NAME, session_id)
     return response
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
+def logout():
+    """deletes the user session / logout"""
+    from api.v1.app import auth
+    session = auth.destroy_session(request)
+
+    if not session:
+        abort(404)
+
+    return jsonify({}), 200

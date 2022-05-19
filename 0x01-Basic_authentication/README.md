@@ -48,3 +48,6 @@ $ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
 * [HTTP header Authorization](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization)
 * [Flask](https://palletsprojects.com/p/flask/)
 * [Base64 - concept](https://en.wikipedia.org/wiki/Base64)
+
+#### Start
+* The project start from `ec2f874b061bd3a2915949f081f4f5f055104f20.zip`. Extract the code then do the Basic Authentication

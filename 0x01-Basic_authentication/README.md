@@ -40,3 +40,11 @@ $ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
 - `DELETE /api/v1/users/:id`: deletes an user based on the ID
 - `POST /api/v1/users`: creates a new user (JSON parameters: `email`, `password`, `last_name` (optional) and `first_name` (optional))
 - `PUT /api/v1/users/:id`: updates an user based on the ID (JSON parameters: `last_name` and `first_name`)
+
+
+#### Resources
+* [REST API Authentication Mechanisms](https://www.youtube.com/watch?v=501dpx2IjGY)
+* [Base64 in Python](https://docs.python.org/3.7/library/base64.html)
+* [HTTP header Authorization](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization)
+* [Flask](https://palletsprojects.com/p/flask/)
+* [Base64 - concept](https://en.wikipedia.org/wiki/Base64)

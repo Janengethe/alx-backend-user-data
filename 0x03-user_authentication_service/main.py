@@ -41,4 +41,16 @@ try:
     find_user = my_db.find_user_by(no_email="test@test.com")
     print(find_user.id)
 except InvalidRequestError:
-    print("Invalid")        
+    print("Invalid")
+
+email = 'test@est.com'
+hashed_password = "hashdPwd"
+
+user = my_db.add_user(email, hashed_password)
+print(user.id)
+
+try:
+    my_db.update_user(user.id, hashed_password='NewPwd')
+    print("Password updated")
+except ValueError:
+    print("Error")

@@ -2,6 +2,7 @@
 """
 Module auth
 """
+from typing import Union
 import uuid
 import bcrypt
 from user import User
@@ -68,7 +69,7 @@ class Auth:
         self._db.update_user(user.id, session_id=session_id)
         return session_id
 
-    def get_user_from_session_id(self, session_id: str) -> User:
+    def get_user_from_session_id(self, session_id: str) -> Union[str, None]:
         """
         If the session ID is None or no user is found, return None.
         Otherwise return the corresponding user.
@@ -78,5 +79,18 @@ class Auth:
         try:
             user = self._db.find_user_by(session_id=session_id)
             return user
+        except NoResultFound:
+            return None
+
+    def destroy_session(self, user_id: int) -> None:
+        """
+        Destroys the session
+        updates the corresponding user’s session ID to None
+        """
+        if user_id is None:
+            return None
+        try:
+            user = self._db.find_user_by(id=user_id)
+            self._db.update_user(user.id, session_id=None)
         except NoResultFound:
             return None

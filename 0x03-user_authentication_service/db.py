@@ -47,10 +47,11 @@ class DB:
         returns the first row found in the users table as
         filtered by the methods input arguments.
         """
-        try:
-            e_user = self._session.query(User).filter_by(**kwargs).first()
-        except TypeError:
-            raise InvalidRequestError
-        if e_user is None:
-            raise NoResultFound
-        return e_user
+        all_users = self._session.query(User)
+        for k, v in kwargs.items():
+            if k not in User.__dict__:
+                raise InvalidRequestError
+            for usr in all_users:
+                if getattr(usr, k) == v:
+                    return usr
+        raise NoResultFound

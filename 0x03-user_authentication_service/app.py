@@ -7,13 +7,15 @@ from auth import Auth
 app = Flask(__name__)
 AUTH = Auth()
 
+
 @app.route("/", methods=['Get'], strict_slashes=False)
 def status() -> str:
     """Basic flask app"""
     return jsonify({"message": "Bienvenue"})
 
+
 @app.route('/users', methods=['POST'], strict_slashes=False)
-def users():
+def users() -> str:
     """end-point to register a user"""
     email = request.form.get("email")
     password = request.form.get("password")

@@ -2,6 +2,7 @@
 """
 Module auth
 """
+import uuid
 import bcrypt
 from db import DB
 from user import User
@@ -13,6 +14,10 @@ def _hash_password(password: str) -> bytes:
     returned bytes is a salted hash of the input password
     """
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+
+def _generate_uuid() -> str:
+    """return a string representation of a new UUID."""
+    return str(uuid.uuid4())
 
 
 class Auth:
@@ -44,3 +49,18 @@ class Auth:
             return(bcrypt.checkpw(password.encode("utf-8"), user.hashed_password))
         except NoResultFound:
             return False
+
+    def create_session(self, email: str) -> str:
+        """
+        finds the user corresponding to the email,
+        generate a new UUID and store it in the database as
+        the user’s session_id, then return the session ID.
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+        except NoResultFound:
+            return None
+
+        session_id = _generate_uuid()
+        self._db.update_user(user.id, session_id=session_id)
+        return session_id

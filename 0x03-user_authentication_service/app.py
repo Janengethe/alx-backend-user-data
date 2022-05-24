@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Module app"""
-from flask import Flask, abort, jsonify, request
+from flask import Flask, abort, jsonify, redirect, request
 from auth import Auth
 
 
@@ -48,6 +48,23 @@ def login() -> str:
     response = jsonify(msg)
     response.set_cookie("session_id", session_id)
     return response
+
+
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
+def logout() -> str:
+    """
+    The request is expected to contain the session ID as a cookie
+    with key "session_id".
+    Find the user with the requested session ID.
+    If the user exists destroy the session and redirect the user to GET /.
+    If the user does not exist, respond with a 403 HTTP status.
+    """
+    s_cookie = request.cookies.get("session_id")
+    user = AUTH.get_user_from_session_id(s_cookie)
+    if s_cookie is None or user is None:
+        abort(403)
+    AUTH.destroy_session(user.id)
+    return redirect("/")
 
 
 if __name__ == "__main__":

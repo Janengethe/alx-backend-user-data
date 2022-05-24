@@ -59,12 +59,28 @@ def logout() -> str:
     If the user exists destroy the session and redirect the user to GET /.
     If the user does not exist, respond with a 403 HTTP status.
     """
-    s_cookie = request.cookies.get("session_id")
+    s_cookie = request.cookies.get("session_id", None)
     user = AUTH.get_user_from_session_id(s_cookie)
     if s_cookie is None or user is None:
         abort(403)
     AUTH.destroy_session(user.id)
     return redirect("/")
+
+
+@app.route('/profile', methods=['GET'], strict_slashes=False)
+def profile() -> str:
+    """
+    The request is expected to contain a session_id cookie.
+    Use it to find the user. If the user exist, respond with a
+    200 HTTP status
+    """
+    s_cookie = request.cookies.get("session_id", None)
+    if s_cookie is None:
+        abort(403)
+    user = AUTH.get_user_from_session_id(s_cookie)
+    if user is None:
+        abort(403)
+    return jsonify({"email": user.email}), 200
 
 
 if __name__ == "__main__":

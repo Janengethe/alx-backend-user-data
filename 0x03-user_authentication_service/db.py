@@ -48,9 +48,24 @@ class DB:
         filtered by the methods input arguments.
         """
         try:
-            e_user = self._session.query(User).filter_by(**kwargs).first()
+            user = self._session.query(User).filter_by(**kwargs).first()
         except TypeError:
             raise InvalidRequestError
-        if e_user is None:
+        if user is None:
             raise NoResultFound
-        return e_user
+        return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """
+        update the user’s attributes as passed in the method’s
+        arguments then commit changes to the database.
+        """
+        user = self.find_user_by(id=user_id)
+
+        for k, v in kwargs.items():
+            if hasattr(user, k):
+                setattr(user, k, v)
+            else:
+                raise ValueError
+        self._session.commit()
+        return None

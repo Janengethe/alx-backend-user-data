@@ -112,7 +112,16 @@ class Auth:
         return uu_id
 
     def update_password(self, reset_token: str, password: str) -> None:
-        """"""
+        """
+        Uses the reset_token to find the corresponding user.
+        If it does not exist, raises a ValueError exception.
+        Otherwise, it hashes the password and updates the user’s
+        hashed_password field with the new hashed password and the
+        reset_token field to None.
+        """
+        if reset_token is None or password is None:
+            return None
+
         try:
             user = self._db.find_user_by(reset_token=reset_token)
         except NoResultFound:

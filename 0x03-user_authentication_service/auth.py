@@ -6,7 +6,7 @@ from typing import Union
 import uuid
 import bcrypt
 from user import User
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound
 
 from db import DB
 
